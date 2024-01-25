@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0f41be7a05655253c0f4782a34b05bf20d75ccb133ca615d46fcf1b0799c2e41
-size 744
+SRCDIR = .
+
+VPATH = $(SRCDIR)
+
+include $(SRCDIR)/../Make.defaults
+
+TOPDIR = $(SRCDIR)/..
+
+CDIR=$(TOPDIR)/..
+
+all:
+
+clean:
+
+install:
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi/protocol
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi/$(ARCH)
+	$(INSTALL) -m 644 $(SRCDIR)/*.h $(INSTALLROOT)$(PREFIX)/include/efi
+	$(INSTALL) -m 644 $(SRCDIR)/protocol/*.h $(INSTALLROOT)$(PREFIX)/include/efi/protocol
+	$(INSTALL) -m 644 $(SRCDIR)/$(ARCH)/*.h $(INSTALLROOT)$(PREFIX)/include/efi/$(ARCH)
+ifeq ($(ARCH),ia64)
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi/protocol/ia64
+	$(INSTALL) -m 644 $(SRCDIR)/protocol/ia64/*.h $(INSTALLROOT)$(PREFIX)/include/efi/protocol/ia64
+endif
+
+include $(SRCDIR)/../Make.rules
